@@ -199,10 +199,6 @@
                     </div>
                 </div>
             </div>
-            <div class="hero__scroll">
-                <span>Scroll to explore</span>
-                <div class="hero__scroll-line"></div>
-            </div>
         </section>
 
         <!-- Brands Section -->
@@ -534,29 +530,65 @@
                 <div class="section-header">
                     <span class="section-badge">Coverage Area</span>
                     <h2 class="section-title">Serving All of <span class="text-gradient">Canterbury</span></h2>
+                    <p class="section-description">From Hanmer Springs to Timaru, we've got Canterbury covered. Fast, reliable service wherever you are.</p>
                 </div>
-                <div class="areas__grid">
-                    <div class="areas__list">
-                        <h3>Christchurch</h3>
-                        <ul>
-                            <li>Central Christchurch</li>
-                            <li>Riccarton & Merivale</li>
-                            <li>Papanui & St Albans</li>
-                            <li>Burnside & Fendalton</li>
-                            <li>Halswell & Hornby</li>
-                            <li>New Brighton & Sumner</li>
-                        </ul>
+                
+                <div class="areas__showcase">
+                    <div class="areas__map">
+                        <div class="areas__map-visual">
+                            <div class="map-pin map-pin--main" style="top: 45%; left: 50%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Christchurch</span>
+                            </div>
+                            <div class="map-pin" style="top: 25%; left: 52%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Rangiora</span>
+                            </div>
+                            <div class="map-pin" style="top: 55%; left: 35%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Rolleston</span>
+                            </div>
+                            <div class="map-pin" style="top: 10%; left: 45%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Hanmer</span>
+                            </div>
+                            <div class="map-pin" style="top: 75%; left: 48%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Ashburton</span>
+                            </div>
+                            <div class="map-pin" style="top: 90%; left: 55%;">
+                                <span class="map-pin__dot"></span>
+                                <span class="map-pin__label">Timaru</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="areas__list">
-                        <h3>Greater Canterbury</h3>
-                        <ul>
-                            <li>Rangiora & Kaiapoi</li>
-                            <li>Rolleston & Lincoln</li>
-                            <li>Selwyn District</li>
-                            <li>Ashburton</li>
-                            <li>Timaru</li>
-                            <li>Hanmer Springs</li>
-                        </ul>
+                    
+                    <div class="areas__info">
+                        <div class="areas__card">
+                            <div class="areas__card-icon">🏙️</div>
+                            <div class="areas__card-content">
+                                <h3>Christchurch & Suburbs</h3>
+                                <p>Central, Riccarton, Merivale, Papanui, St Albans, Burnside, Fendalton, Halswell, Hornby, New Brighton, Sumner</p>
+                            </div>
+                        </div>
+                        <div class="areas__card">
+                            <div class="areas__card-icon">🏡</div>
+                            <div class="areas__card-content">
+                                <h3>Selwyn & Waimakariri</h3>
+                                <p>Rolleston, Lincoln, Prebbleton, Rangiora, Kaiapoi, Woodend, Pegasus</p>
+                            </div>
+                        </div>
+                        <div class="areas__card">
+                            <div class="areas__card-icon">🌄</div>
+                            <div class="areas__card-content">
+                                <h3>Greater Canterbury</h3>
+                                <p>Ashburton, Timaru, Hanmer Springs, Methven, Geraldine, and surrounding areas</p>
+                            </div>
+                        </div>
+                        <div class="areas__highlight">
+                            <span class="areas__highlight-icon">🚐</span>
+                            <span>Same-day service available in most areas!</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -579,11 +611,11 @@
                                     027 206 5345
                                 </span>
                             </a>
-                            <a href="mailto:info@chillair.co.nz" class="contact__method">
+                            <a href="/cdn-cgi/l/email-protection#30595e565f705358595c5c5159421e535f1e5e4a" class="contact__method">
                                 <span class="contact__method-icon">✉️</span>
                                 <span class="contact__method-text">
                                     <strong>Email Us</strong>
-                                    info@chillair.co.nz
+                                    <span class="__cf_email__" data-cfemail="5930373f36193a3130353538302b773a36773723">[email&#160;protected]</span>
                                 </span>
                             </a>
                             <div class="contact__method">
@@ -693,7 +725,7 @@
                 <div class="footer__contact">
                     <h4>Contact</h4>
                     <p>📞 <a href="tel:+64272065345">027 206 5345</a></p>
-                    <p>✉️ <a href="mailto:info@chillair.co.nz">info@chillair.co.nz</a></p>
+                    <p>✉️ <a href="/cdn-cgi/l/email-protection#335a5d555c73505b5a5f5f525a411d505c1d5d49"><span class="__cf_email__" data-cfemail="5d34333b321d3e353431313c342f733e32733327">[email&#160;protected]</span></a></p>
                     <p>📍 Christchurch, Canterbury NZ</p>
                     <p>🕐 Mon-Fri: 8am - 5pm</p>
                 </div>
@@ -710,15 +742,4 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/app.js"></script>
-    
-    <!-- Register Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker registered'))
-                .catch(err => console.log('Service Worker not registered', err));
-        }
-    </script>
-</body>
-</html>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><s

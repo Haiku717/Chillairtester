@@ -692,12 +692,14 @@
         }
 
         .calendar-day {
-            padding: 12px;
-            text-align: center;
+            padding: 8px;
+            text-align: left;
             border: 1px solid var(--color-gray-100);
-            min-height: 80px;
+            min-height: 90px;
             cursor: pointer;
             transition: background 0.2s;
+            display: flex;
+            flex-direction: column;
         }
 
         .calendar-day:hover {
@@ -707,27 +709,83 @@
         .calendar-day.today {
             background: #EFF6FF;
         }
+        
+        .calendar-day.selected {
+            background: #DBEAFE;
+            border-color: var(--color-primary);
+        }
 
-        .calendar-day.has-event::after {
-            content: '';
-            display: block;
-            width: 6px;
-            height: 6px;
+        .calendar-day__number {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .calendar-day.today .calendar-day__number {
             background: var(--color-primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            margin: 8px auto 0;
         }
 
         .calendar-event {
-            font-size: 11px;
-            padding: 2px 6px;
+            font-size: 10px;
+            padding: 3px 6px;
             background: var(--gradient-primary);
             color: white;
             border-radius: 4px;
-            margin-top: 4px;
+            margin-top: 2px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .calendar-event:hover {
+            opacity: 0.9;
+        }
+        
+        .calendar-event-title {
+            font-weight: 500;
+        }
+        
+        .calendar-event-time {
+            opacity: 0.9;
+        }
+        
+        /* Event details popup */
+        .event-details {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-top: 16px;
+            border: 2px solid var(--color-primary);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .event-details h4 {
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        
+        .event-details-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+        
+        .event-details-item:last-child {
+            border-bottom: none;
+        }
+        
+        .event-details-item span:first-child {
+            font-size: 1.25rem;
         }
 
         /* Products Grid */
@@ -819,6 +877,10 @@
         .mobile-nav__icon {
             font-size: 1.5rem;
         }
+        
+        .mobile-nav__logout {
+            color: var(--color-danger) !important;
+        }
 
         /* Responsive */
         @media (max-width: 1024px) {
@@ -845,7 +907,7 @@
             }
 
             .main-content {
-                padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom));
+                padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 20px);
             }
 
             .sidebar-footer {
@@ -853,11 +915,143 @@
             }
 
             .stats-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .stat-card {
+                padding: 16px;
+            }
+            
+            .stat-card__icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+                margin-bottom: 12px;
+            }
+            
+            .stat-card__value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-card__label {
+                font-size: 12px;
             }
 
             .page-content {
+                padding: 12px;
+            }
+            
+            .card {
+                border-radius: var(--radius-lg);
+            }
+            
+            .card-header {
+                padding: 14px 16px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .card-header .btn {
+                width: 100%;
+            }
+            
+            .card-body {
                 padding: 16px;
+            }
+            
+            .main-header {
+                padding: 0 12px;
+            }
+            
+            .header-title h1 {
+                font-size: 1.1rem;
+            }
+            
+            .header-actions {
+                display: none;
+            }
+            
+            /* Mobile table improvements */
+            .table th,
+            .table td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+            
+            .table th:nth-child(3),
+            .table td:nth-child(3),
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                display: none;
+            }
+            
+            /* Mobile calendar */
+            .calendar-day {
+                padding: 8px 4px;
+                min-height: 60px;
+            }
+            
+            .calendar-event {
+                font-size: 9px;
+                padding: 1px 3px;
+            }
+            
+            .calendar-header h3 {
+                font-size: 1rem;
+            }
+            
+            /* Products grid */
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .product-image {
+                height: 120px;
+            }
+            
+            /* Quote card */
+            .quote-card {
+                padding: 16px;
+            }
+            
+            /* Progress checklist */
+            .progress-item {
+                padding: 10px 12px;
+            }
+            
+            /* Forms */
+            .form-group {
+                margin-bottom: 16px;
+            }
+            
+            .form-input {
+                padding: 12px 14px;
+            }
+            
+            /* Modals */
+            .modal {
+                margin: 12px;
+                max-height: calc(100vh - 24px);
+            }
+            
+            .modal-header {
+                padding: 16px;
+            }
+            
+            .modal-body {
+                padding: 16px;
+            }
+            
+            .modal-footer {
+                padding: 12px 16px;
+                flex-direction: column;
+            }
+            
+            .modal-footer .btn {
+                width: 100%;
             }
         }
 
@@ -867,7 +1061,41 @@
             }
 
             .login-card {
-                padding: 32px 24px;
+                padding: 24px 16px;
+            }
+            
+            .stat-card {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 14px;
+            }
+            
+            .stat-card__icon {
+                margin-bottom: 0;
+            }
+            
+            .stat-card__value {
+                font-size: 1.25rem;
+            }
+            
+            .calendar-day-header {
+                padding: 8px 4px;
+                font-size: 10px;
+            }
+            
+            .calendar-day {
+                padding: 6px 2px;
+                min-height: 50px;
+                font-size: 12px;
+            }
+            
+            .calendar-event {
+                display: none;
+            }
+            
+            .calendar-day.has-event::after {
+                display: block;
             }
         }
 

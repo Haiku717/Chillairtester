@@ -370,11 +370,11 @@ function updateMobileNavForAdmin() {
         <li><a href="#" class="mobile-nav__link" data-page="admin-jobs"><span class="mobile-nav__icon">📋</span><span>Jobs</span></a></li>
         <li><a href="#" class="mobile-nav__link" data-page="admin-quotes"><span class="mobile-nav__icon">💰</span><span>Quotes</span></a></li>
         <li><a href="#" class="mobile-nav__link" data-page="admin-calendar"><span class="mobile-nav__icon">📆</span><span>Calendar</span></a></li>
-        <li><a href="#" class="mobile-nav__link" data-page="admin-clients"><span class="mobile-nav__icon">👥</span><span>Clients</span></a></li>
+        <li><a href="#" class="mobile-nav__link mobile-nav__logout" onclick="logout(); return false;"><span class="mobile-nav__icon">🚪</span><span>Sign Out</span></a></li>
     `;
     
     // Re-attach event listeners
-    document.querySelectorAll('.mobile-nav__link').forEach(link => {
+    document.querySelectorAll('.mobile-nav__link:not(.mobile-nav__logout)').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             navigateTo(link.dataset.page);
@@ -389,14 +389,16 @@ function updateMobileNavForClient() {
         <li><a href="#" class="mobile-nav__link" data-page="jobs"><span class="mobile-nav__icon">📋</span><span>Jobs</span></a></li>
         <li><a href="#" class="mobile-nav__link" data-page="quotes"><span class="mobile-nav__icon">📝</span><span>Quotes</span></a></li>
         <li><a href="#" class="mobile-nav__link" data-page="bookings"><span class="mobile-nav__icon">📅</span><span>Bookings</span></a></li>
-        <li><a href="#" class="mobile-nav__link" data-page="profile"><span class="mobile-nav__icon">👤</span><span>Profile</span></a></li>
+        <li><a href="#" class="mobile-nav__link mobile-nav__logout" onclick="logout(); return false;"><span class="mobile-nav__icon">🚪</span><span>Sign Out</span></a></li>
     `;
     
     // Re-attach event listeners
-    document.querySelectorAll('.mobile-nav__link').forEach(link => {
+    document.querySelectorAll('.mobile-nav__link:not(.mobile-nav__logout)').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             navigateTo(link.dataset.page);
+        });
+    });
         });
     });
 }
@@ -691,6 +693,8 @@ function loadCalendar() {
     };
 }
 
+let selectedDate = null;
+
 function renderCalendar(container) {
     const year = currentCalendarDate.getFullYear();
     const month = currentCalendarDate.getMonth();
@@ -720,32 +724,125 @@ function renderCalendar(container) {
     
     // Empty cells for days before first of month
     for (let i = 0; i < firstDay; i++) {
-        html += '<div class="calendar-day" style="background: #f8fafc;"></div>';
+        html += '<div class="calendar-day" style="background: #f8fafc; cursor: default;"></div>';
     }
     
     // Days of the month
     for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+        const isSelected = selectedDate === dateStr;
         const events = demoData.calendarEvents.filter(e => e.date === dateStr);
         
-        html += `<div class="calendar-day ${isToday ? 'today' : ''} ${events.length ? 'has-event' : ''}">
-            <div style="font-weight: ${isToday ? '700' : '400'};">${day}</div>
-            ${events.map(e => `<div class="calendar-event" title="${e.title}">${e.time}</div>`).join('')}
+        let eventsHtml = '';
+        events.forEach(e => {
+            eventsHtml += `<div class="calendar-event" onclick="showEventDetails('${e.date}', '${e.title}', '${e.time}'); event.stopPropagation();">
+                <span class="calendar-event-time">${e.time}</span> ${e.title.split(' - ')[0]}
+            </div>`;
+        });
+        
+        html += `<div class="calendar-day ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}" onclick="selectDate('${dateStr}')">
+            <div class="calendar-day__number">${day}</div>
+            ${eventsHtml}
         </div>`;
     }
     
     html += '</div>';
+    
+    // Event details panel
+    html += '<div id="event-details-panel"></div>';
+    
     container.innerHTML = html;
+    
+    // Show selected date events if any
+    if (selectedDate) {
+        showDateEvents(selectedDate);
+    }
+}
+
+function selectDate(dateStr) {
+    selectedDate = dateStr;
+    showDateEvents(dateStr);
+    
+    // Update selected state
+    document.querySelectorAll('.calendar-day').forEach(day => {
+        day.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+}
+
+function showDateEvents(dateStr) {
+    const events = demoData.calendarEvents.filter(e => e.date === dateStr);
+    const panel = document.getElementById('event-details-panel');
+    
+    const dateParts = dateStr.split('-');
+    const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+    const formattedDate = date.toLocaleDateString('en-NZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    if (events.length === 0) {
+        panel.innerHTML = `
+            <div class="event-details">
+                <h4>📅 ${formattedDate}</h4>
+                <p style="color: var(--color-gray-500);">No appointments scheduled for this day.</p>
+            </div>
+        `;
+    } else {
+        let eventsHtml = events.map(e => `
+            <div class="event-details-item">
+                <span>🕐</span>
+                <div>
+                    <strong>${e.time}</strong>
+                    <div style="color: var(--color-gray-600);">${e.title}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        panel.innerHTML = `
+            <div class="event-details">
+                <h4>📅 ${formattedDate}</h4>
+                ${eventsHtml}
+            </div>
+        `;
+    }
+}
+
+function showEventDetails(date, title, time) {
+    const panel = document.getElementById('event-details-panel');
+    
+    const dateParts = date.split('-');
+    const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+    const formattedDate = dateObj.toLocaleDateString('en-NZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    panel.innerHTML = `
+        <div class="event-details">
+            <h4>📋 Appointment Details</h4>
+            <div class="event-details-item">
+                <span>📅</span>
+                <div><strong>Date:</strong> ${formattedDate}</div>
+            </div>
+            <div class="event-details-item">
+                <span>🕐</span>
+                <div><strong>Time:</strong> ${time}</div>
+            </div>
+            <div class="event-details-item">
+                <span>👤</span>
+                <div><strong>Client:</strong> ${title}</div>
+            </div>
+        </div>
+    `;
+    
+    selectedDate = date;
 }
 
 function prevMonth() {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+    selectedDate = null;
     renderCalendar(document.getElementById('calendar'));
 }
 
 function nextMonth() {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+    selectedDate = null;
     renderCalendar(document.getElementById('calendar'));
 }
 

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initReviewsSlider();
     initContactForm();
     initSmoothScroll();
+    initGalleryLightbox();
 });
 
 // ===== Navigation =====
@@ -94,23 +95,19 @@ function initScrollEffects() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe elements with animation classes
-    document.querySelectorAll('.service-card, .about__content, .about__image, .review-card').forEach(el => {
+    // Observe elements with animation classes (excluding review cards which are handled by slider)
+    document.querySelectorAll('.service-card, .about__content, .about__image').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
-    });
-
-    // Add animation class handler
-    document.querySelectorAll('.animate-in').forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
     });
 }
 
@@ -125,16 +122,18 @@ function initReviewsSlider() {
     const nextBtn = document.getElementById('reviews-next');
     const dotsContainer = document.getElementById('reviews-dots');
 
+    if (!cards.length) return;
+
     let currentIndex = 0;
     let cardsPerView = getCardsPerView();
-    let maxIndex = Math.ceil(cards.length / cardsPerView) - 1;
+    let totalSlides = Math.ceil(cards.length / cardsPerView);
 
     // Create dots
     function createDots() {
+        if (!dotsContainer) return;
         dotsContainer.innerHTML = '';
-        const totalDots = maxIndex + 1;
         
-        for (let i = 0; i < totalDots; i++) {
+        for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
             dot.classList.add('reviews__dot');
             if (i === 0) dot.classList.add('active');
@@ -152,8 +151,12 @@ function initReviewsSlider() {
 
     // Update slider position
     function updateSlider() {
-        const cardWidth = cards[0].offsetWidth + 24; // Including gap
-        track.style.transform = `translateX(-${currentIndex * cardWidth * cardsPerView}px)`;
+        const gap = 24; // var(--space-xl) approximately
+        const card = cards[0];
+        const cardWidth = card.offsetWidth + gap;
+        const offset = currentIndex * cardsPerView * cardWidth;
+        
+        track.style.transform = `translateX(-${offset}px)`;
         
         // Update dots
         document.querySelectorAll('.reviews__dot').forEach((dot, i) => {
@@ -163,19 +166,19 @@ function initReviewsSlider() {
 
     // Go to specific slide
     function goToSlide(index) {
-        currentIndex = Math.max(0, Math.min(index, maxIndex));
+        currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
         updateSlider();
     }
 
     // Next slide
     function nextSlide() {
-        currentIndex = (currentIndex + 1) > maxIndex ? 0 : currentIndex + 1;
+        currentIndex = (currentIndex + 1) >= totalSlides ? 0 : currentIndex + 1;
         updateSlider();
     }
 
     // Previous slide
     function prevSlide() {
-        currentIndex = (currentIndex - 1) < 0 ? maxIndex : currentIndex - 1;
+        currentIndex = (currentIndex - 1) < 0 ? totalSlides - 1 : currentIndex - 1;
         updateSlider();
     }
 
@@ -222,8 +225,8 @@ function initReviewsSlider() {
         const newCardsPerView = getCardsPerView();
         if (newCardsPerView !== cardsPerView) {
             cardsPerView = newCardsPerView;
-            maxIndex = Math.ceil(cards.length / cardsPerView) - 1;
-            currentIndex = Math.min(currentIndex, maxIndex);
+            totalSlides = Math.ceil(cards.length / cardsPerView);
+            currentIndex = Math.min(currentIndex, totalSlides - 1);
             createDots();
             updateSlider();
         }
@@ -389,6 +392,54 @@ function formatPhoneNumber(phone) {
 // Validate email
 function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// ===== Gallery Lightbox =====
+function initGalleryLightbox() {
+    const galleryItems = document.querySelectorAll('.gallery__item[data-lightbox]');
+    if (!galleryItems.length) return;
+
+    // Create lightbox element
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = `
+        <button class="lightbox__close">×</button>
+        <div class="lightbox__content">
+            <img src="" alt="Gallery image">
+        </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.lightbox__close');
+
+    // Open lightbox
+    galleryItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const imgSrc = item.href || item.querySelector('img').src;
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Close lightbox
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
 
 // Export functions for use in other scripts

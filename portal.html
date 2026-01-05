@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0a1628">
+    <meta name="theme-color" content="#0f1d32">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Chill Air Portal">
@@ -1667,7 +1667,7 @@
                         <p id="user-role">Administrator</p>
                     </div>
                 </div>
-                <button class="btn btn-secondary" style="width:100%; margin-top:12px;" onclick="logout()">
+                <button class="btn btn-secondary" style="width:100%; margin-top:12px;" data-action="logout">
                     <span>🚪</span> Sign Out
                 </button>
             </div>
@@ -1678,7 +1678,7 @@
             <header class="main-header">
                 <h1 id="page-title">Dashboard</h1>
                 <div class="header-actions">
-                    <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
+                    <button class="btn btn-secondary btn-sm" data-action="logout">Sign Out</button>
                 </div>
             </header>
             
@@ -1717,15 +1717,15 @@
                     </div>
                     
                     <div class="quick-actions">
-                        <button class="quick-action" onclick="navigateTo('request-quote')">
+                        <button class="quick-action" data-action="navigate" data-page="request-quote">
                             <span class="quick-action__icon">✨</span>
                             Request Quote
                         </button>
-                        <button class="quick-action" onclick="navigateTo('book-service')">
+                        <button class="quick-action" data-action="navigate" data-page="book-service">
                             <span class="quick-action__icon">🔧</span>
                             Book Service
                         </button>
-                        <button class="quick-action" onclick="navigateTo('invoices')">
+                        <button class="quick-action" data-action="navigate" data-page="invoices">
                             <span class="quick-action__icon">💳</span>
                             Pay Invoice
                         </button>
@@ -1735,7 +1735,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Current Jobs</h3>
-                                <a href="#" onclick="navigateTo('jobs'); return false;" style="color: var(--color-primary); font-size: 13px;">View All →</a>
+                                <a href="#" data-action="navigate" data-page="jobs" style="color: var(--color-primary); font-size: 13px;">View All →</a>
                             </div>
                             <div class="card-body card-body--no-padding">
                                 <div id="dashboard-jobs"></div>
@@ -1779,7 +1779,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Your Appointments</h3>
-                            <button class="btn btn-primary btn-sm" onclick="navigateTo('book-service')">Book New</button>
+                            <button class="btn btn-primary btn-sm" data-action="navigate" data-page="book-service">Book New</button>
                         </div>
                         <div class="card-body" id="bookings-list"></div>
                     </div>
@@ -1912,19 +1912,19 @@
                     </div>
                     
                     <div class="quick-actions">
-                        <button class="quick-action" onclick="openModal('new-job-modal')">
+                        <button class="quick-action" data-action="open-modal" data-modal="new-job-modal">
                             <span class="quick-action__icon">➕</span>
                             New Job
                         </button>
-                        <button class="quick-action" onclick="openModal('send-quote-modal')">
+                        <button class="quick-action" data-action="open-modal" data-modal="send-quote-modal">
                             <span class="quick-action__icon">💰</span>
                             Send Quote
                         </button>
-                        <button class="quick-action" onclick="openModal('send-invoice-modal')">
+                        <button class="quick-action" data-action="open-modal" data-modal="send-invoice-modal">
                             <span class="quick-action__icon">📄</span>
                             Send Invoice
                         </button>
-                        <button class="quick-action" onclick="openModal('add-client-modal')">
+                        <button class="quick-action" data-action="open-modal" data-modal="add-client-modal">
                             <span class="quick-action__icon">👤</span>
                             Add Client
                         </button>
@@ -1934,7 +1934,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Recent Jobs</h3>
-                                <a href="#" onclick="navigateTo('admin-jobs'); return false;" style="color: var(--color-primary); font-size: 13px;">View All →</a>
+                                <a href="#" data-action="navigate" data-page="admin-jobs" style="color: var(--color-primary); font-size: 13px;">View All →</a>
                             </div>
                             <div class="card-body card-body--no-padding">
                                 <div class="table-container">
@@ -1968,7 +1968,7 @@
                             <span class="search-box__icon">🔍</span>
                             <input type="text" placeholder="Search jobs..." id="jobs-search">
                         </div>
-                        <button class="btn btn-primary" onclick="openModal('new-job-modal')">+ New Job</button>
+                        <button class="btn btn-primary" data-action="open-modal" data-modal="new-job-modal">+ New Job</button>
                     </div>
                     
                     <div class="filters">
@@ -2004,7 +2004,7 @@
                 <section class="page-section" id="page-admin-quotes">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h3 style="color: var(--color-text);">Manage Quotes</h3>
-                        <button class="btn btn-primary" onclick="openModal('send-quote-modal')">+ New Quote</button>
+                        <button class="btn btn-primary" data-action="open-modal" data-modal="send-quote-modal">+ New Quote</button>
                     </div>
                     
                     <div class="card">
@@ -2033,7 +2033,7 @@
                 <section class="page-section" id="page-admin-invoices">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h3 style="color: var(--color-text);">Manage Invoices</h3>
-                        <button class="btn btn-primary" onclick="openModal('send-invoice-modal')">+ New Invoice</button>
+                        <button class="btn btn-primary" data-action="open-modal" data-modal="send-invoice-modal">+ New Invoice</button>
                     </div>
                     
                     <div class="card">
@@ -2062,11 +2062,11 @@
                 <section class="page-section" id="page-admin-calendar">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <div style="display: flex; align-items: center; gap: 16px;">
-                            <button class="btn btn-secondary btn-icon" onclick="changeMonth(-1)">←</button>
+                            <button class="btn btn-secondary btn-icon" data-action="prev-month">←</button>
                             <h3 style="color: var(--color-text); min-width: 180px; text-align: center;" id="calendar-month">January 2026</h3>
-                            <button class="btn btn-secondary btn-icon" onclick="changeMonth(1)">→</button>
+                            <button class="btn btn-secondary btn-icon" data-action="next-month">→</button>
                         </div>
-                        <button class="btn btn-primary" onclick="openModal('new-event-modal')">+ New Event</button>
+                        <button class="btn btn-primary" data-action="open-modal" data-modal="new-event-modal">+ New Event</button>
                     </div>
                     
                     <div class="card">
@@ -2083,7 +2083,7 @@
                             <span class="search-box__icon">🔍</span>
                             <input type="text" placeholder="Search clients..." id="clients-search">
                         </div>
-                        <button class="btn btn-primary" onclick="openModal('add-client-modal')">+ Add Client</button>
+                        <button class="btn btn-primary" data-action="open-modal" data-modal="add-client-modal">+ Add Client</button>
                     </div>
                     
                     <div class="card">
@@ -2116,7 +2116,7 @@
                 <li><a href="#" class="mobile-nav__link" data-page="jobs"><span class="mobile-nav__icon">📋</span><span>Jobs</span></a></li>
                 <li><a href="#" class="mobile-nav__link" data-page="quotes"><span class="mobile-nav__icon">💰</span><span>Quotes</span></a></li>
                 <li><a href="#" class="mobile-nav__link" data-page="invoices"><span class="mobile-nav__icon">📄</span><span>Invoices</span></a></li>
-                <li><a href="#" class="mobile-nav__link mobile-nav__logout" onclick="logout(); return false;"><span class="mobile-nav__icon">🚪</span><span>Out</span></a></li>
+                <li><a href="#" class="mobile-nav__link mobile-nav__logout" data-action="logout"><span class="mobile-nav__icon">🚪</span><span>Out</span></a></li>
             </ul>
         </nav>
     </div>
@@ -2127,7 +2127,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Create New Job</h3>
-                <button class="modal-close" onclick="closeModal('new-job-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="new-job-modal">×</button>
             </div>
             <div class="modal-body">
                 <form id="new-job-form">
@@ -2158,8 +2158,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('new-job-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="createJob()">Create Job</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="new-job-modal">Cancel</button>
+                <button class="btn btn-primary" data-action="create-job">Create Job</button>
             </div>
         </div>
     </div>
@@ -2169,7 +2169,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">New Calendar Event</h3>
-                <button class="modal-close" onclick="closeModal('new-event-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="new-event-modal">×</button>
             </div>
             <div class="modal-body">
                 <form id="new-event-form">
@@ -2209,8 +2209,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('new-event-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="createEvent()">Add Event</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="new-event-modal">Cancel</button>
+                <button class="btn btn-primary" data-action="create-event">Add Event</button>
             </div>
         </div>
     </div>
@@ -2220,7 +2220,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Send Quote</h3>
-                <button class="modal-close" onclick="closeModal('send-quote-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="send-quote-modal">×</button>
             </div>
             <div class="modal-body">
                 <form id="send-quote-form">
@@ -2245,8 +2245,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('send-quote-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="sendQuote()">Send Quote</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="send-quote-modal">Cancel</button>
+                <button class="btn btn-primary" data-action="send-quote">Send Quote</button>
             </div>
         </div>
     </div>
@@ -2256,7 +2256,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Send Invoice</h3>
-                <button class="modal-close" onclick="closeModal('send-invoice-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="send-invoice-modal">×</button>
             </div>
             <div class="modal-body">
                 <form id="send-invoice-form">
@@ -2281,8 +2281,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('send-invoice-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="sendInvoice()">Send Invoice</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="send-invoice-modal">Cancel</button>
+                <button class="btn btn-primary" data-action="send-invoice">Send Invoice</button>
             </div>
         </div>
     </div>
@@ -2292,7 +2292,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Add Client</h3>
-                <button class="modal-close" onclick="closeModal('add-client-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="add-client-modal">×</button>
             </div>
             <div class="modal-body">
                 <form id="add-client-form">
@@ -2321,8 +2321,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('add-client-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="addClient()">Add Client</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="add-client-modal">Cancel</button>
+                <button class="btn btn-primary" data-action="add-client">Add Client</button>
             </div>
         </div>
     </div>
@@ -2332,12 +2332,12 @@
         <div class="modal modal--lg">
             <div class="modal-header">
                 <h3 class="modal-title">Job Details</h3>
-                <button class="modal-close" onclick="closeModal('view-job-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="view-job-modal">×</button>
             </div>
             <div class="modal-body" id="view-job-content"></div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('view-job-modal')">Close</button>
-                <button class="btn btn-primary" id="save-job-btn" onclick="saveJobChanges()">Save Changes</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="view-job-modal">Close</button>
+                <button class="btn btn-primary" id="save-job-btn" data-action="save-job">Save Changes</button>
             </div>
         </div>
     </div>
@@ -2347,7 +2347,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Quote Details</h3>
-                <button class="modal-close" onclick="closeModal('view-quote-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="view-quote-modal">×</button>
             </div>
             <div class="modal-body" id="view-quote-content"></div>
             <div class="modal-footer" id="view-quote-footer"></div>
@@ -2359,12 +2359,12 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Client Details</h3>
-                <button class="modal-close" onclick="closeModal('view-client-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="view-client-modal">×</button>
             </div>
             <div class="modal-body" id="view-client-content"></div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('view-client-modal')">Close</button>
-                <button class="btn btn-primary" onclick="saveClientChanges()">Save Changes</button>
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="view-client-modal">Close</button>
+                <button class="btn btn-primary" data-action="save-client">Save Changes</button>
             </div>
         </div>
     </div>
@@ -2374,9 +2374,16 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">Pay Invoice</h3>
-                <button class="modal-close" onclick="closeModal('pay-invoice-modal')">×</button>
+                <button class="modal-close" data-action="close-modal" data-modal="pay-invoice-modal">×</button>
             </div>
             <div class="modal-body" id="pay-invoice-content"></div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('pay-invoice-modal')">Cancel</button>
-                <button class="btn btn-success" onclick="processPayment()">P
+                <button class="btn btn-secondary" data-action="close-modal" data-modal="pay-invoice-modal">Cancel</button>
+                <button class="btn btn-success" data-action="process-payment">Pay Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/portal.js"></script>
+</body>
+</html>

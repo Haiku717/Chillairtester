@@ -1,4 +1,5 @@
 // ===== Chill Air Portal - Professional Dark Mode =====
+console.log('Portal.js loading...');
 
 // Demo Data
 const demoData = {
@@ -76,20 +77,90 @@ document.addEventListener('DOMContentLoaded', function() {
     initModals();
     initFilters();
     initForms();
+    initActionHandlers();
 });
+
+// ===== Global Action Handler (Event Delegation) =====
+function initActionHandlers() {
+    document.addEventListener('click', function(e) {
+        var target = e.target.closest('[data-action]');
+        if (!target) return;
+        
+        e.preventDefault();
+        var action = target.getAttribute('data-action');
+        
+        switch(action) {
+            case 'logout':
+                logout();
+                break;
+            case 'navigate':
+                navigateTo(target.getAttribute('data-page'));
+                break;
+            case 'open-modal':
+                openModal(target.getAttribute('data-modal'));
+                break;
+            case 'close-modal':
+                closeModal(target.getAttribute('data-modal'));
+                break;
+            case 'create-job':
+                createJob();
+                break;
+            case 'create-event':
+                createEvent();
+                break;
+            case 'send-quote':
+                sendQuote();
+                break;
+            case 'send-invoice':
+                sendInvoice();
+                break;
+            case 'add-client':
+                addClient();
+                break;
+            case 'save-job':
+                saveJobChanges();
+                break;
+            case 'save-client':
+                saveClientChanges();
+                break;
+            case 'process-payment':
+                processPayment();
+                break;
+            case 'prev-month':
+                changeMonth(-1);
+                break;
+            case 'next-month':
+                changeMonth(1);
+                break;
+        }
+    });
+}
 
 // ===== Login System =====
 function initLogin() {
+    console.log('initLogin starting...');
+    
     const tabClient = document.getElementById('tab-client');
     const tabAdmin = document.getElementById('tab-admin');
     const loginForm = document.getElementById('login-form');
     const loginType = document.getElementById('login-type');
 
-    if (!tabClient || !tabAdmin || !loginForm || !loginType) return;
+    console.log('Elements found:', {
+        tabClient: !!tabClient,
+        tabAdmin: !!tabAdmin,
+        loginForm: !!loginForm,
+        loginType: !!loginType
+    });
+
+    if (!tabClient || !tabAdmin || !loginForm || !loginType) {
+        console.error('Missing login elements!');
+        return;
+    }
 
     // Tab switching with addEventListener
     tabClient.addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Client tab clicked');
         tabClient.classList.add('active');
         tabAdmin.classList.remove('active');
         loginType.value = 'client';
@@ -97,6 +168,7 @@ function initLogin() {
     
     tabAdmin.addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Admin tab clicked');
         tabAdmin.classList.remove('active');
         tabClient.classList.remove('active');
         tabAdmin.classList.add('active');
@@ -106,15 +178,20 @@ function initLogin() {
     // Login form
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        console.log('Login form submitted');
         
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         const type = loginType.value;
+        
+        console.log('Login attempt:', { email: email, type: type });
 
         if (type === 'admin') {
             if (email === demoData.admin.username && password === demoData.admin.password) {
+                console.log('Admin login success');
                 loginAsAdmin();
             } else {
+                console.log('Admin login failed');
                 showNotification('Invalid admin credentials', 'error');
             }
         } else {
@@ -123,8 +200,10 @@ function initLogin() {
             });
             
             if (client) {
+                console.log('Client login success:', client.name);
                 loginAsClient(client);
             } else {
+                console.log('Client login failed');
                 showNotification('Invalid credentials. Check demo credentials below.', 'error');
             }
         }

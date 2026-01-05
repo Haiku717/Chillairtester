@@ -224,14 +224,18 @@
         }
 
         .btn-primary {
-            width: 100%;
             background: var(--gradient-primary);
             color: var(--color-bg-dark);
+            flex-shrink: 0;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+        }
+        
+        .btn-block {
+            width: 100%;
         }
 
         .btn-secondary {
@@ -1541,7 +1545,7 @@
                     <input type="password" class="form-input" id="login-password" placeholder="Enter your password" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             </form>
             
             <div class="login-demo">

@@ -125,22 +125,26 @@ function initLogin() {
         return;
     }
 
-    // Tab switching
-    loginTabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
+    console.log('Login system initialized with ' + loginTabs.length + ' tabs');
+
+    // Tab switching - use onclick for reliability
+    loginTabs.forEach(function(tab) {
+        tab.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
             
             // Update visual state
-            loginTabs.forEach(t => t.classList.remove('active'));
+            loginTabs.forEach(function(t) {
+                t.classList.remove('active');
+            });
             this.classList.add('active');
             
             // Update hidden form value
             const tabType = this.getAttribute('data-tab');
             loginType.value = tabType;
             
-            console.log('Tab clicked:', tabType); // Debug
-        });
+            console.log('Login tab switched to:', tabType);
+        };
     });
 
     // Login form submission
